@@ -1,4 +1,57 @@
+# 🏗️ Patrones de Diseño Implementados
 
+> Esta sección explica los patrones de diseño utilizados en el proyecto y su justificación.
+
+## 🔹 1. Patrón MVC (Model-View-Controller)
+
+**¿Por qué lo utilizamos en el backend?**
+
+El patrón MVC nos permite:
+
+* **Separación de responsabilidades**: Cada componente tiene una función específica:
+  - **Modelos** (`/models`): Representan los datos y la lógica de negocio
+  - **Vistas**: En nuestro caso, gestionadas por el frontend
+  - **Controladores** (`/controllers`): Manejan las peticiones HTTP y coordinan el flujo
+
+* **Mantenibilidad mejorada**: Al tener componentes desacoplados, podemos modificar uno sin afectar a los demás.
+
+* **Desarrollo en paralelo**: Diferentes equipos pueden trabajar simultáneamente en distintas capas.
+
+* **Testabilidad**: Facilita la creación de pruebas unitarias para cada componente de forma aislada.
+
+## 🔹 2. Repository Pattern
+
+**¿Por qué lo utilizamos para consultas a la base de datos?**
+
+El patrón Repository nos proporciona:
+
+* **Abstracción de la capa de datos**: Los controladores no necesitan conocer cómo se accede a los datos.
+
+* **Centralización de consultas**: Todas las operaciones relacionadas con una entidad están en un solo lugar (`/repositorios`).
+
+* **Reutilización de código**: Evitamos duplicar lógica de acceso a datos en diferentes partes de la aplicación.
+
+* **Facilidad para cambiar la fuente de datos**: Si necesitamos cambiar de SQLite a otro motor de base de datos, solo modificamos el repositorio.
+
+* **Mejora en pruebas**: Podemos crear mocks de repositorios para pruebas sin depender de la base de datos real.
+
+## 🔹 3. Patrón Singleton
+
+**¿Por qué lo utilizamos para la conexión a DB?**
+
+El patrón Singleton garantiza:
+
+* **Una única instancia de conexión**: Evita abrir múltiples conexiones innecesarias a la base de datos.
+
+* **Optimización de recursos**: Reduce la sobrecarga de memoria y mejora el rendimiento.
+
+* **Consistencia**: Asegura que todos los componentes trabajen con la misma conexión.
+
+* **Control centralizado**: Facilita la gestión de la configuración de la conexión desde un único punto.
+
+* **Prevención de race conditions**: Evita problemas de concurrencia al acceder a la base de datos.
+
+---
 
 # 📂 Guía de Uso de Ramas en Git
 
@@ -187,3 +240,4 @@ git push origin --delete nombre-rama
    * `hotfix/seguridad`
 
 ---
+
