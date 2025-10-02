@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const authMiddleware = require('./middleware/auth');
 const getDatabase = require('./db');
 
 // require controllers
@@ -28,6 +29,9 @@ app.get('/noticias', NewController.getAll);
 app.get('/noticias/:id', NewController.getById);
 app.put('/noticias/:id', NewController.update);
 app.delete('/noticias/:id', NewController.delete);
+app.post('/login', authMiddleware.authenticate, (req, res) => {
+    res.json({ message: 'Login exitoso' });
+});
 
 
 const PORT = process.env.PORT || 3000;
