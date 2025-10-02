@@ -1,6 +1,6 @@
 const sqlite3 = require('sqlite3').verbose();
 
-// instancia
+// instancia SINGLETON
 let database
 
 function getDatabase() {

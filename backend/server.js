@@ -2,13 +2,16 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const getDatabase = require('./db');
 
+// require controllers
+const NewController = require('./controllers/NewController');
+
 const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 const db = getDatabase();
 
-// verificar conexion a la base de datos
+// TESTEO: verificar conexion a la base de datos
 app.get('/test', (req, res) => {
     db.all('SELECT * FROM noticias', (err, row) => {
         if (err) {
@@ -18,6 +21,14 @@ app.get('/test', (req, res) => {
         }
     });
 });
+
+// routes
+app.post('/noticias', NewController.create);
+app.get('/noticias', NewController.getAll);
+app.get('/noticias/:id', NewController.getById);
+app.put('/noticias/:id', NewController.update);
+app.delete('/noticias/:id', NewController.delete);
+
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
