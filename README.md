@@ -187,4 +187,3 @@ git push origin --delete nombre-rama
    * `hotfix/seguridad`
 
 ---
-

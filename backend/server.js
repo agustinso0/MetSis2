@@ -4,7 +4,7 @@ const authMiddleware = require('./middleware/auth');
 const getDatabase = require('./db');
 
 // require controllers
-const NewController = require('./controllers/NewController');
+const NewController = require('./controllers/NewsController');
 
 const app = express();
 app.use(bodyParser.json());
@@ -33,6 +33,11 @@ app.post('/login', authMiddleware.authenticate, (req, res) => {
     res.json({ message: 'Login exitoso' });
 });
 
+// Exportamos `app` para tests
+module.exports = app;
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+// Solo arrancar servidor si no es test
+if (require.main === module) {
+  const PORT = process.env.PORT || 3000;
+  app.listen(PORT, () => console.log(`Server running on port localhost:${PORT}`));
+}
