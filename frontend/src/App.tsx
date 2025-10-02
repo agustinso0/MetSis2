@@ -2,17 +2,21 @@ import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
+import ListaNoticias from './components/ListaNoticias';
+
 
 function App() {
   const [count, setCount] = useState(0)
 
   return (
     <>
+      {/* Prueba visual de Tailwind en App */}
+      <div className="bg-green-500 text-white p-4 mb-4">TEST TAILWIND EN APP</div>
       <div>
-        <a href="https://vite.dev" target="_blank">
+        <a href="https://vite.dev" target="_blank" rel="noopener noreferrer">
           <img src={viteLogo} className="logo" alt="Vite logo" />
         </a>
-        <a href="https://react.dev" target="_blank">
+        <a href="https://react.dev" target="_blank" rel="noopener noreferrer">
           <img src={reactLogo} className="logo react" alt="React logo" />
         </a>
       </div>
@@ -28,6 +32,7 @@ function App() {
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
       </p>
+      <ListaNoticias />
     </>
   )
 }
