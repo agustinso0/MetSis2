@@ -1,7 +1,7 @@
 
 import type { Noticia } from '../types/noticia';
 import type { INoticiasService } from '../interfaces/INoticiasService';
-import type { INoticiasRepository } from '../repositories/NoticiasRepository';
+import type { INoticiasRepository } from '../interfaces/INoticiasRepository';
 
 export class NoticiasService implements INoticiasService {
   private repo: INoticiasRepository;
