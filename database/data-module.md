@@ -3,6 +3,11 @@
 
 Instalar dependencias:
 
-
+```bash
 npm init -y
-npm install express sqlite3
+npm install express sqlite3 body-parser
+```
+
+Tablas:
+
+![Tablas](uploads/tables.png)

@@ -16,14 +16,10 @@ CREATE TABLE noticias (
     publicado DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
-
 INSERT INTO users (username, password, rol) 
 VALUES 
-('admin1', '1234', 'admin'),
-
-
+('admin1', '1234', 'admin');
 
 INSERT INTO noticias (titulo, contenido, autor, imagen) 
 VALUES
-('Nuevo sistema de gestión', 'Se ha implementado un nuevo sistema de gestión para mejorar el rendimiento.', 'admin1', 'img1.jpg'),
-
+('Nuevo sistema de gestión', 'Se ha implementado un nuevo sistema de gestión para mejorar el rendimiento.', 'admin1', 'img1.jpg');
