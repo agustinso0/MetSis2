@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 const bodyParser = require('body-parser');
 const authMiddleware = require('./middleware/auth');
 const getDatabase = require('./db');
@@ -7,6 +8,7 @@ const getDatabase = require('./db');
 const NewController = require('./controllers/NewsController');
 
 const app = express();
+app.use(cors({ origin: 'http://localhost:5173' }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
