@@ -1,31 +1,37 @@
 import { render, screen, waitFor } from "@testing-library/react";
 import ListaNoticias from "../components/ListaNoticias";
 
+jest.mock('react-router-dom', () => ({
+  Link: ({ children, to }: { children: React.ReactNode; to: string }) => (
+    <a href={to}>{children}</a>
+  ),
+}));
+
 describe("ListaNoticias", () => {
   beforeEach(() => {
-    globalThis.fetch = jest.fn(
-      () =>
-        Promise.resolve({
-          ok: true,
-          json: () =>
-            Promise.resolve([
-              {
-                id: 1,
-                titulo: "Noticia 1",
-                contenido: "Contenido de la noticia 1",
-                autor: "Autor 1",
-                imagen: "",
-              },
-              {
-                id: 2,
-                titulo: "Noticia 2",
-                contenido: "Contenido de la noticia 2",
-                autor: "Autor 2",
-                imagen: "",
-              },
-            ]),
-        }) as any
+    const mockFetch = jest.fn(() =>
+      Promise.resolve({
+        ok: true,
+        json: () =>
+          Promise.resolve([
+            {
+              id: 1,
+              titulo: "Noticia 1",
+              contenido: "Contenido de la noticia 1",
+              autor: "Autor 1",
+              imagen: "",
+            },
+            {
+              id: 2,
+              titulo: "Noticia 2",
+              contenido: "Contenido de la noticia 2",
+              autor: "Autor 2",
+              imagen: "",
+            },
+          ]),
+      })
     );
+    globalThis.fetch = mockFetch as unknown as typeof fetch;
   });
 
   afterEach(() => {
