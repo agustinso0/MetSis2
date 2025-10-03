@@ -3,6 +3,12 @@ import ListaNoticias from '../components/ListaNoticias';
 import type { Noticia } from '../types/noticia';
 import type { INoticiasService } from '../interfaces/INoticiasService';
 
+jest.mock('react-router-dom', () => ({
+  Link: ({ children, to }: { children: React.ReactNode; to: string }) => (
+    <a href={to}>{children}</a>
+  ),
+}));
+
 describe('ListaNoticias (con mock de servicio)', () => {
   class NoticiasServiceMock implements INoticiasService {
     async getAll(): Promise<Noticia[]> {
@@ -10,6 +16,13 @@ describe('ListaNoticias (con mock de servicio)', () => {
         { id: 1, titulo: 'Mock 1', contenido: 'Contenido 1', autor: 'Autor 1' },
         { id: 2, titulo: 'Mock 2', contenido: 'Contenido 2', autor: 'Autor 2' },
       ];
+    }
+
+    async getById(id: number): Promise<Noticia> {
+      const noticias = await this.getAll();
+      const noticia = noticias.find(n => n.id === id);
+      if (!noticia) throw new Error('Noticia no encontrada');
+      return noticia;
     }
   }
 
