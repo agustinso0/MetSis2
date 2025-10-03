@@ -4,6 +4,7 @@ import DetalleNoticias from "../components/DetalleNoticias";
 import type { Noticia } from "../types/noticia";
 import { NoticiasService } from "../services/NoticiasService";
 import { NoticiasApiRepository } from "../repositories/NoticiasRepository";
+import Layout from "../components/layout";
 
 const noticiasService = new NoticiasService(new NoticiasApiRepository());
 
@@ -183,11 +184,13 @@ const DetallePage: React.FC = () => {
   }
 
   return (
-    <DetalleNoticias
-      noticia={noticia}
-      onBack={() => navigate("/noticias")}
-      onClose={() => navigate("/noticias")}
-    />
+    <Layout>
+      <DetalleNoticias
+        noticia={noticia}
+        onBack={() => navigate("/noticias")}
+        onClose={() => navigate("/noticias")}
+      />
+    </Layout>
   );
 };
 
