@@ -1,47 +1,26 @@
 import React from "react";
-import type { Noticia } from "../types/noticia";
-
-interface DetalleNoticiasProps {
-  noticia: Noticia;
-  onClose?: () => void;
-  onBack?: () => void;
-}
+import type { DetalleNoticiasProps } from "../types/components";
+import { CheckCircle, Clock } from "lucide-react";
+import { Button, Badge } from "./ui";
+import { formatDate } from "../utils";
 
 const DetalleNoticias: React.FC<DetalleNoticiasProps> = ({
   noticia,
   onClose,
   onBack,
 }) => {
-  const formatDate = (dateString?: string) => {
-    if (!dateString) return "Fecha no disponible";
-
-    try {
-      const date = new Date(dateString);
-      if (isNaN(date.getTime())) {
-        return "Fecha no válida";
-      }
-      return date.toLocaleDateString("es-ES", {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-        hour: "2-digit",
-        minute: "2-digit",
-      });
-    } catch {
-      return "Fecha no válida";
-    }
-  };
-
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
+    <div className="min-h-screen bg-gray-900">
+      {/* Barra superior con botones de navegacion */}
       <div className="bg-gray-800/30 backdrop-blur-sm border-b border-gray-700/50 sticky top-0 z-10">
         <div className="max-w-6xl mx-auto px-6 py-3">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
               {onBack && (
-                <button
+                <Button
+                  variant="secondary"
                   onClick={onBack}
-                  className="inline-flex items-center px-4 py-2 bg-gray-700/50 hover:bg-gray-600/50 text-gray-300 hover:text-white rounded-lg transition-all duration-200 backdrop-blur-sm"
+                  className="flex items-center"
                   aria-label="Volver a la lista"
                 >
                   <svg
@@ -58,17 +37,19 @@ const DetalleNoticias: React.FC<DetalleNoticiasProps> = ({
                     />
                   </svg>
                   <span className="text-sm font-medium">Volver</span>
-                </button>
+                </Button>
               )}
               <div className="text-sm text-gray-400">
                 <span>Portal de Noticias</span>
               </div>
             </div>
 
+            {/* Boton X para cerrar si se necesita */}
             {onClose && (
-              <button
+              <Button
+                variant="outline"
                 onClick={onClose}
-                className="p-2 text-gray-400 hover:text-white hover:bg-gray-700/50 rounded-lg transition-all duration-200"
+                className="p-2"
                 aria-label="Cerrar detalle"
               >
                 <svg
@@ -84,14 +65,15 @@ const DetalleNoticias: React.FC<DetalleNoticiasProps> = ({
                     d="M6 18L18 6M6 6l12 12"
                   />
                 </svg>
-              </button>
+              </Button>
             )}
           </div>
         </div>
       </div>
 
       <div className="max-w-6xl mx-auto px-6 py-6">
-        <article className="bg-gradient-to-br from-gray-800 to-gray-800/90 border border-gray-700/50 rounded-2xl overflow-hidden shadow-2xl">
+        <article className="bg-gray-800 border border-gray-700/50 rounded-2xl overflow-hidden shadow-2xl">
+          {/* Solo mostrar la imagen si existe - evita espacios vacios raros */}
           {noticia.imagen && (
             <div className="relative h-56 md:h-72 overflow-hidden">
               <img
@@ -99,38 +81,58 @@ const DetalleNoticias: React.FC<DetalleNoticiasProps> = ({
                 alt={noticia.titulo}
                 className="w-full h-full object-cover"
                 onError={(e) => {
+                  // Si la imagen falla al cargar, la ocultamos para que no se vea rota
                   const target = e.target as HTMLImageElement;
                   target.style.display = "none";
                 }}
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/20 to-transparent"></div>
+              {/* Overlay oscuro sobre la imagen - ayuda a que el badge se lea mejor */}
+              <div className="absolute inset-0 bg-gray-900/80"></div>
 
+              {/* Badge de estado sobre la imagen */}
               <div className="absolute top-4 left-4">
-                <span
-                  className={`px-3 py-1.5 rounded-full text-sm font-semibold backdrop-blur-sm ${
-                    noticia.publicado
-                      ? "bg-green-600/90 text-green-100"
-                      : "bg-yellow-600/90 text-yellow-100"
-                  }`}
+                <Badge
+                  variant={noticia.publicado ? "success" : "warning"}
+                  size="md"
+                  className="backdrop-blur-sm flex items-center space-x-1"
                 >
-                  {noticia.publicado ? "✓ Publicado" : "⏳ Borrador"}
-                </span>
+                  {noticia.publicado ? (
+                    <>
+                      <CheckCircle className="w-4 h-4" />
+                      <span>Publicado</span>
+                    </>
+                  ) : (
+                    <>
+                      <Clock className="w-4 h-4" />
+                      <span>Borrador</span>
+                    </>
+                  )}
+                </Badge>
               </div>
             </div>
           )}
 
           <header className="p-6 md:p-8">
+            {/* Si no hay imagen, mostrar el badge arriba del titulo */}
             {!noticia.imagen && (
               <div className="mb-4">
-                <span
-                  className={`px-3 py-1.5 rounded-full text-sm font-semibold ${
-                    noticia.publicado
-                      ? "bg-green-600/20 text-green-300 border border-green-600/30"
-                      : "bg-yellow-600/20 text-yellow-300 border border-yellow-600/30"
-                  }`}
+                <Badge
+                  variant={noticia.publicado ? "success" : "warning"}
+                  size="md"
+                  className="flex items-center space-x-1"
                 >
-                  {noticia.publicado ? "✓ Publicado" : "⏳ Borrador"}
-                </span>
+                  {noticia.publicado ? (
+                    <>
+                      <CheckCircle className="w-4 h-4" />
+                      <span>Publicado</span>
+                    </>
+                  ) : (
+                    <>
+                      <Clock className="w-4 h-4" />
+                      <span>Borrador</span>
+                    </>
+                  )}
+                </Badge>
               </div>
             )}
 
@@ -139,6 +141,7 @@ const DetalleNoticias: React.FC<DetalleNoticiasProps> = ({
             </h1>
 
             <div className="flex flex-wrap items-center gap-4 text-gray-400 border-t border-gray-700/50 pt-4">
+              {/* Informacion del autor con iconito circular */}
               <div className="flex items-center">
                 <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center mr-2">
                   <svg
@@ -163,8 +166,9 @@ const DetalleNoticias: React.FC<DetalleNoticiasProps> = ({
                 </div>
               </div>
 
+              {/* Fecha de ultima actualizacion - ayuda a saber que tan actual es */}
               <div className="flex items-center">
-                <div className="w-8 h-8 bg-purple-600 rounded-full flex items-center justify-center mr-2">
+                <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center mr-2">
                   <svg
                     className="w-4 h-4 text-white"
                     fill="none"
@@ -187,6 +191,7 @@ const DetalleNoticias: React.FC<DetalleNoticiasProps> = ({
                 </div>
               </div>
 
+              {/* Indicador de longitud - da una idea rapida del contenido */}
               <div className="flex items-center">
                 <div className="w-8 h-8 bg-gray-600 rounded-full flex items-center justify-center mr-2">
                   <svg
