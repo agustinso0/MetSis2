@@ -1,4 +1,4 @@
-# 📰 Portal de Noticias - MetSis2
+# 📰 Portal de Noticias
 
 > **Sistema completo de gestión de noticias** desarrollado con arquitectura full-stack moderna, implementando patrones de diseño y metodologías de desarrollo ágil.
 
@@ -9,38 +9,78 @@
 Portal de Noticias es una aplicación web completa que permite **visualizar, gestionar y consultar artículos de noticias** con una interfaz moderna y responsiva. El proyecto implementa una arquitectura robusta con separación clara entre frontend y backend, siguiendo las mejores prácticas de desarrollo.
 
 ### **Características Principales:**
-- **Listado de noticias**
-- **Vista detallada**
-- **Sistema de estados**
-- **API RESTful**
-- **Testing integral**
-- **UI/UX moderno**
-- **Responsive design**
+
+- **Listado de noticias** con paginación y filtros
+- **Vista detallada** individual de cada noticia
+- **Sistema de categorías** temáticas visuales
+- **Sidebar con noticias destacadas** recientes
+- **Sistema de componentes UI** reutilizables
+- **Factory pattern** con Singleton para servicios
+- **Custom hooks** para manejo de estado
+- **API RESTful** con cliente HTTP dedicado
+- **Testing integral** con Jest y RTL
+- **UI/UX moderno** con Tailwind CSS
+- **Responsive design** mobile-first
+- **TypeScript** tipado completo
 
 ---
 
 ## 🏗️ **Arquitectura Técnica**
 
 ### **Frontend (React + TypeScript)**
+
 ```
 frontend/
 ├── src/
 │   ├── components/          # Componentes reutilizables
-│   │   ├── ListaNoticias.tsx    # Grid de noticias
-│   │   └── DetalleNoticias.tsx  # Vista detallada
+│   │   ├── ListaNoticias.tsx         # Grid de noticias con paginación
+│   │   ├── DetalleNoticias.tsx       # Vista detallada de noticia
+│   │   ├── SidebarDestacadas.tsx     # Sidebar con noticias recientes
+│   │   ├── layout.tsx                # Layout principal con navegación
+│   │   └── ui/                       # Sistema de componentes UI
+│   │       ├── Button.tsx            # Componente botón reutilizable
+│   │       ├── Card.tsx              # Tarjetas de contenido
+│   │       ├── Badge.tsx             # Etiquetas y badges
+│   │       ├── Input.tsx             # Campos de entrada
+│   │       ├── LoadingSpinner.tsx    # Indicador de carga
+│   │       ├── ErrorState.tsx        # Estado de error
+│   │       └── index.ts              # Barrel export
 │   ├── pages/              # Páginas de la aplicación
-│   │   ├── NoticiasPage.tsx     # Página principal
-│   │   └── DetallePage.tsx      # Página de detalle
+│   │   ├── NoticiasPage.tsx          # Página principal con filtros
+│   │   ├── DetallePage.tsx           # Página de detalle individual
+│   │   └── Categorias.tsx            # Página de categorías temáticas
 │   ├── services/           # Lógica de negocio
-│   │   └── NoticiasService.ts   # Servicio de noticias
+│   │   └── NoticiasService.ts        # Servicio principal de noticias
 │   ├── repositories/       # Capa de acceso a datos
-│   │   └── NoticiasRepository.ts # Repository pattern
+│   │   ├── NoticiasRepository.ts     # Repository pattern implementado
+│   │   └── ApiClient.ts              # Cliente HTTP para APIs
+│   ├── factories/          # Patrón Factory
+│   │   └── NoticiasServiceFactory.ts # Factory con Singleton pattern
+│   ├── hooks/              # Custom React hooks
+│   │   └── index.ts                  # Hooks para manejo de estado
 │   ├── interfaces/         # Contratos TypeScript
+│   │   ├── INoticiasService.ts       # Interface del servicio
+│   │   └── INoticiasRepository.ts    # Interface del repository
 │   ├── types/             # Definiciones de tipos
-│   └── __tests__/         # Suite de testing
+│   │   ├── noticia.ts               # Tipos principales de entidades
+│   │   ├── dtos.ts                  # Data Transfer Objects
+│   │   ├── components.ts            # Props de componentes
+│   │   └── ui.ts                    # Tipos para componentes UI
+│   ├── utils/             # Utilidades
+│   │   └── index.ts                 # Funciones de formato y validación
+│   ├── constants/         # Constantes de la aplicación
+│   │   └── index.ts                 # URLs, configuraciones y valores
+│   ├── styles/            # Estilos globales
+│   │   └── index.css                # CSS global con Tailwind
+│   └── __tests__/         # Suite de testing integral
+│       ├── DetalleNoticias.test.tsx     # Tests del componente detalle
+│       ├── ListaNoticias.test.tsx       # Tests del listado
+│       ├── ListaNoticias.mock.test.tsx  # Tests con mocks
+│       └── NoticiasService.test.tsx     # Tests del servicio
 ```
 
 ### **Backend (Node.js + Express + SQLite)**
+
 ```
 backend/
 ├── controllers/           # Controladores MVC
@@ -60,17 +100,20 @@ backend/
 ## 🛠️ **Stack Tecnológico**
 
 ### **Frontend**
+
 | Tecnología | Versión | Propósito |
 |------------|---------|-----------|
-| **React** | 19.0.0 | Framework UI principal |
-| **TypeScript** | 5.6.2 | Tipado estático y mejor DX |
-| **Vite** | 7.1.8 | Build tool y dev server |
-| **Tailwind CSS** | 4.0.0 | Framework CSS utility-first |
-| **React Router** | 7.0.2 | Enrutamiento SPA |
-| **Jest** | 29.7.0 | Framework de testing |
-| **React Testing Library** | 16.1.0 | Testing de componentes |
+| **React** | 19.1.1 | Framework UI principal |
+| **TypeScript** | 5.9.3 | Tipado estático y mejor DX |
+| **Vite** | 7.1.7 | Build tool y dev server |
+| **Tailwind CSS** | 4.1.14 | Framework CSS utility-first |
+| **React Router** | 7.9.3 | Enrutamiento SPA |
+| **Jest** | 30.2.0 | Framework de testing |
+| **React Testing Library** | 16.3.0 | Testing de componentes |
+| **Lucide React** | 0.553.0 | Librería de iconos |
 
 ### **Backend**
+
 | Tecnología | Versión | Propósito |
 |------------|---------|-----------|
 | **Node.js** | 18.x+ | Runtime JavaScript |
@@ -84,12 +127,48 @@ backend/
 
 ### **Arquitectura Frontend**
 
-#### **Patrón Repository + Service**
+#### **Patrón Factory + Singleton**
+
 ```typescript
-// Separación clara de responsabilidades
-NoticiasRepository.ts → Acceso a datos (API calls)
-NoticiasService.ts → Lógica de negocio
-Components → Presentación y UI
+// Factory centralizada que gestiona dependencias
+NoticiasServiceFactory → Crea y mantiene instancia única del servicio
+└── ApiClient → Cliente HTTP reutilizable
+└── NoticiasRepository → Capa de acceso a datos
+└── NoticiasService → Lógica de negocio
+```
+
+#### **Sistema de Custom Hooks**
+
+```typescript
+// Hooks especializados para diferentes casos de uso
+useNoticias() → Lista completa con filtros opcionales
+useNoticiasRecientes() → Noticias para sidebar
+useNoticia() → Noticia individual por ID
+useNoticiasActions() → Operaciones CRUD
+useBuscarNoticias() → Búsqueda con términos
+useAppNavigation() → Navegación centralizada
+```
+
+#### **Componentes UI Modulares**
+
+```typescript
+// Sistema de componentes reutilizables
+Button → Botones con variants y states
+Card → Tarjetas de contenido flexibles
+Badge → Etiquetas y estados visuales
+Input/Textarea → Campos de formulario
+LoadingSpinner → Indicadores de carga
+ErrorState → Manejo de errores UI
+```
+
+#### **Tipos y DTOs Estructurados**
+
+```typescript
+// Definiciones de tipos organizadas
+types/noticia.ts → Entidad principal
+types/dtos.ts → Data Transfer Objects
+types/components.ts → Props de componentes
+types/ui.ts → Tipos para sistema UI
 ```
 
 ---
@@ -97,6 +176,7 @@ Components → Presentación y UI
 ## **Instalación y Configuración**
 
 ### **Prerrequisitos**
+
 - Node.js 18.x o superior
 - npm 9.x o superior
 - Git
@@ -134,11 +214,24 @@ npm run dev
 # Ejecutar tests
 npm test
 
+# Ejecutar tests con cobertura
+npm run test:coverage
+
 # Build para producción
 npm run build
+
+# Vista previa del build
+npm run preview
+
+# Linting del código
+npm run lint
 ```
 
 **El frontend estará disponible en:** `http://localhost:5173`
+
+**Variables de entorno:**
+
+- `VITE_API_URL`: URL del backend (default: `http://localhost:3000`)
 
 ### **🗄️ Estructura de la Base de Datos**
 
@@ -161,28 +254,34 @@ CREATE TABLE noticias (
 ## **Testing y Calidad**
 
 ### **Frontend Testing**
-- **Componentes React**: 17 tests para `DetalleNoticias`
-- **Servicios**: 5 tests para `NoticiasService`
-- **Integración**: Tests de flujos completos
-- **Mocking**: Simulación de APIs y datos
+
+- **Componentes React**: 25+ tests para componentes principales
+- **Servicios**: Tests unitarios para `NoticiasService` y Repository
+- **Hooks**: Tests de custom hooks con mocking
+- **Integración**: Tests de flujos completos usuario
+- **UI Components**: Tests del sistema de componentes UI
+- **Mocking**: Simulación completa de APIs y dependencias
 
 ### **Cobertura de Tests**
+
 ```bash
 # Ejecutar todos los tests
 npm test
 
-# Tests con cobertura
+# Tests con cobertura detallada
 npm run test:coverage
 
-# Tests en modo watch
+# Tests en modo watch para desarrollo
 npm run test:watch
 ```
 
 ### **Herramientas de Calidad**
-- **ESLint**: Linting y estándares de código
-- **TypeScript**: Tipado estático y validación
+
+- **ESLint**: Linting avanzado con reglas React/TypeScript
+- **TypeScript**: Tipado estático completo y validación
 - **Prettier**: Formateo automático de código
-- **Jest**: Framework de testing robusto
+- **Jest**: Framework de testing robusto con jsdom
+- **React Testing Library**: Testing centrado en usuario
 
 ---
 
@@ -215,54 +314,10 @@ interface Noticia {
 
 ---
 
-## **Metodología de Desarrollo**
-
-### **Principios Aplicados**
-- **SOLID**: Principios de diseño orientado a objetos
-- **DRY**: Don't Repeat Yourself - Reutilización de código
-- **KISS**: Keep It Simple, Stupid - Simplicidad en el diseño
-- **Single Responsibility**: Cada componente tiene una responsabilidad específica
-- **Separation of Concerns**: Separación clara entre capas
-
-### **Herramientas de Desarrollo**
-- **Vite**: Build tool ultra-rápido con HMR
-- **Tailwind CSS**: Framework CSS utility-first
-- **TypeScript**: Tipado estático para mayor robustez
-- **Jest + React Testing Library**: Suite de testing completa
-- **ESLint + Prettier**: Linting y formateo automático
-
-### **Workflow de Git**
-- **Feature Branches**: Desarrollo en ramas por funcionalidad
-- **Pull Requests**: Revisión de código antes del merge
-- **Conventional Commits**: Formato estandardizado de commits
-- **Issue Tracking**: Gestión de tareas y bugs
-
----
-
-## **Métricas del Proyecto**
-
-### **Estadísticas de Código**
-```
-Frontend:
-├── Components: 2 componentes principales + utilidades
-├── Pages: 2 páginas (Lista y Detalle)
-├── Services: 1 servicio principal
-├── Tests: 25 tests unitarios
-└── Cobertura: 100% en componentes críticos
-
-Backend:
-├── Controllers: 1 controlador MVC
-├── Models: 1 modelo de datos
-├── Repositories: 1 repository pattern
-├── Middleware: 1 middleware de autenticación
-└── API Endpoints: 5 endpoints RESTful
-```
-
----
-
 ## **Referencias y Documentación**
 
 ### **Tecnologías Utilizadas**
+
 - [React Documentation](https://react.dev/)
 - [TypeScript Handbook](https://www.typescriptlang.org/docs/)
 - [Tailwind CSS](https://tailwindcss.com/docs)
@@ -270,6 +325,7 @@ Backend:
 - [Jest Testing Framework](https://jestjs.io/docs/getting-started)
 
 ### **Patrones de Diseño**
+
 - [MVC Pattern](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller)
 - [Repository Pattern](https://docs.microsoft.com/en-us/dotnet/architecture/microservices/microservice-ddd-cqrs-patterns/infrastructure-persistence-layer-design)
 - [Singleton Pattern](https://refactoring.guru/design-patterns/singleton)
@@ -286,16 +342,16 @@ Backend:
 
 El patrón MVC nos permite:
 
-* **Separación de responsabilidades**: Cada componente tiene una función específica:
+- **Separación de responsabilidades**: Cada componente tiene una función específica:
   - **Modelos** (`/models`): Representan los datos y la lógica de negocio
   - **Vistas**: En nuestro caso, gestionadas por el frontend
   - **Controladores** (`/controllers`): Manejan las peticiones HTTP y coordinan el flujo
 
-* **Mantenibilidad mejorada**: Al tener componentes desacoplados, podemos modificar uno sin afectar a los demás.
+- **Mantenibilidad mejorada**: Al tener componentes desacoplados, podemos modificar uno sin afectar a los demás.
 
-* **Desarrollo en paralelo**: Diferentes equipos pueden trabajar simultáneamente en distintas capas.
+- **Desarrollo en paralelo**: Diferentes equipos pueden trabajar simultáneamente en distintas capas.
 
-* **Testabilidad**: Facilita la creación de pruebas unitarias para cada componente de forma aislada.
+- **Testabilidad**: Facilita la creación de pruebas unitarias para cada componente de forma aislada.
 
 ## 🔹 2. Repository Pattern
 
@@ -303,219 +359,78 @@ El patrón MVC nos permite:
 
 El patrón Repository nos proporciona:
 
-* **Abstracción de la capa de datos**: Los controladores no necesitan conocer cómo se accede a los datos.
+- **Abstracción de la capa de datos**: Los controladores no necesitan conocer cómo se accede a los datos.
 
-* **Centralización de consultas**: Todas las operaciones relacionadas con una entidad están en un solo lugar (`/repositorios`).
+- **Centralización de consultas**: Todas las operaciones relacionadas con una entidad están en un solo lugar (`/repositorios`).
 
-* **Reutilización de código**: Evitamos duplicar lógica de acceso a datos en diferentes partes de la aplicación.
+- **Reutilización de código**: Evitamos duplicar lógica de acceso a datos en diferentes partes de la aplicación.
 
-* **Facilidad para cambiar la fuente de datos**: Si necesitamos cambiar de SQLite a otro motor de base de datos, solo modificamos el repositorio.
+- **Facilidad para cambiar la fuente de datos**: Si necesitamos cambiar de SQLite a otro motor de base de datos, solo modificamos el repositorio.
 
-* **Mejora en pruebas**: Podemos crear mocks de repositorios para pruebas sin depender de la base de datos real.
+- **Mejora en pruebas**: Podemos crear mocks de repositorios para pruebas sin depender de la base de datos real.
 
-## 🔹 3. Patrón Singleton
+## 🔹 3. Patrón Singleton + Factory
 
-**¿Por qué lo utilizamos para la conexión a DB?**
+**¿Por qué los combinamos en el frontend?**
 
-El patrón Singleton garantiza:
+Esta combinación nos proporciona:
 
-* **Una única instancia de conexión**: Evita abrir múltiples conexiones innecesarias a la base de datos.
+- **Una única instancia del servicio**: El Factory garantiza que siempre obtengamos la misma instancia del servicio.
 
-* **Optimización de recursos**: Reduce la sobrecarga de memoria y mejora el rendimiento.
+- **Gestión centralizada de dependencias**: El Factory maneja toda la cadena de construcción (ApiClient → Repository → Service).
 
-* **Consistencia**: Asegura que todos los componentes trabajen con la misma conexión.
+- **Optimización de recursos**: Evita crear múltiples instancias innecesarias del servicio.
 
-* **Control centralizado**: Facilita la gestión de la configuración de la conexión desde un único punto.
+- **Facilidad para testing**: El Factory tiene métodos especiales para crear versiones mock en tests.
 
-* **Prevención de race conditions**: Evita problemas de concurrencia al acceder a la base de datos.
+- **Configuración flexible**: Puede cambiar entre diferentes implementaciones según el entorno.
 
----
+## 🔹 4. Patrón Factory
 
-# 📂 Guía de Uso de Ramas en Git
+**¿Por qué lo utilizamos para la creación de servicios?**
 
-> Aprende a **crear, navegar y colaborar con ramas** en Git desde la terminal.
-> Ideal para todos los colaboradores del repositorio.
+El patrón Factory nos aporta:
 
----
+- **Encapsulación de la construcción**: Los componentes no necesitan saber cómo crear las dependencias complejas.
 
-## 🔹 1. Listar ramas
+- **Gestión centralizada de dependencias**: Toda la cadena de creación (ApiClient → Repository → Service) está en un solo lugar.
 
-| Tipo de rama               | Comando         |
-| -------------------------- | --------------- |
-| **Locales**                | `git branch`    |
-| **Remotas**                | `git branch -r` |
-| **Todas** (local + remoto) | `git branch -a` |
+- **Facilidad para testing**: Podemos crear versiones mock de los servicios para pruebas unitarias.
 
----
+- **Flexibilidad de configuración**: Podemos cambiar la implementación según el entorno (desarrollo, testing, producción).
 
-## 🔹 2. Crear ramas
+- **Reducción de acoplamiento**: Los componentes solo dependen de la interfaz, no de la implementación concreta.
 
-| Objetivo                          | Comando                       |
-| --------------------------------- | ----------------------------- |
-| Crear y cambiarse a la nueva rama | `git checkout -b nombre-rama` |
-| Crear sin cambiarse               | `git branch nombre-rama`      |
+## 🔹 5. Custom Hooks Pattern
 
----
+**¿Por qué creamos hooks especializados?**
 
-## 🔹 3. Cambiar de rama
+Los custom hooks nos permiten:
 
-```bash
-git checkout nombre-rama
-```
+- **Reutilización de lógica de estado**: La misma lógica se puede usar en múltiples componentes.
 
-o
+- **Separación de responsabilidades**: Los componentes se enfocan en la UI, los hooks en la lógica de negocio.
 
-```bash
-git switch nombre-rama
-```
+- **Manejo consistente de errores**: Todos los hooks manejan loading y errores de la misma manera.
 
----
+- **Abstracción de complejidad**: Los componentes usan hooks simples sin preocuparse por los detalles internos.
 
-## 🔹 4. Traer cambios del remoto
+- **Testing independiente**: Podemos testear la lógica de los hooks por separado de la UI.
 
-* **Actualizar información de ramas remotas:**
+## 🔹 6. Compound Components Pattern
 
-```bash
-git fetch origin
-```
+**¿Por qué utilizamos el sistema de componentes UI?**
 
-* **Actualizar tu rama con los cambios del remoto:**
+Este patrón nos da:
 
-```bash
-git pull origin nombre-rama
-```
+- **Composabilidad**: Los componentes se pueden combinar de múltiples maneras.
 
-* **Si tu rama local no existe y querés traerla del remoto:**
+- **Consistencia visual**: Todos los componentes siguen el mismo sistema de diseño.
 
-```bash
-git checkout -b nombre-rama origin/nombre-rama
-```
+- **Reutilización máxima**: Un componente como `Button` se puede usar en toda la aplicación.
 
-o
+- **Mantenimiento simplificado**: Los cambios en el diseño se hacen en un solo lugar.
 
-```bash
-git switch -c nombre-rama origin/nombre-rama
-```
+- **Props tipadas**: TypeScript garantiza que usemos los componentes correctamente.
 
 ---
-
-## 🔹 5. Subir tus cambios (push)
-
-* Subir la rama actual al remoto:
-
-```bash
-git push origin nombre-rama
-```
-
-* Primera vez que subís la rama (vincula local con remoto):
-
-```bash
-git push -u origin nombre-rama
-```
-
----
-
-## 🔹 6. Hacer commits
-
-* Agregar cambios:
-
-```bash
-git add .
-```
-
-* Confirmar cambios:
-
-```bash
-git commit -m "Mensaje descriptivo del cambio"
-```
-
-* Subir commits:
-
-```bash
-git push origin nombre-rama
-```
-
----
-
-## 🔹 7. Fusionar ramas (merge)
-
-1. Cambiar a la rama destino (ej: `dev`) y actualizar:
-
-```bash
-git checkout dev
-git pull origin dev
-```
-
-2. Fusionar la rama:
-
-```bash
-git merge nombre-rama
-```
-
-3. Subir los cambios:
-
-```bash
-git push origin dev
-```
-
-> ⚠️ Si hay conflictos, Git te avisará. Resuélvelos antes de hacer push.
-
----
-
-## 🔹 8. Rebase (opcional, avanzado)
-
-* Aplicar commits de otra rama "encima" de la tuya:
-
-```bash
-git checkout nombre-rama
-git pull --rebase origin dev
-```
-
-> Mantiene un historial lineal más limpio.
-
----
-
-## 🔹 9. Eliminar ramas
-
-* **Local:**
-
-```bash
-git branch -d nombre-rama       # si está mergeada
-git branch -D nombre-rama       # forzar eliminación
-```
-
-* **Remota:**
-
-```bash
-git push origin --delete nombre-rama
-```
-
----
-
-## 🔹 10. Casos comunes
-
-| Caso                                   | Comando                                                                                               |
-| -------------------------------------- | ----------------------------------------------------------------------------------------------------- |
-| Ver todas las ramas                    | `git branch -a`                                                                                       |
-| Traer todos los cambios del remoto     | `git fetch origin`                                                                                    |
-| Traer cambios de `module-back` a tu PC | `git checkout module-back` <br> `git pull origin module-back`                                         |
-| Subir tus cambios a `module-front`     | `git add .` <br> `git commit -m "mensaje"` <br> `git push origin module-front`                        |
-| Fusionar `module-back` en `dev`        | `git checkout dev` <br> `git pull origin dev` <br> `git merge module-back` <br> `git push origin dev` |
-
----
-
-## 🔹 11. Buenas prácticas
-
-1. Siempre hacer `git fetch` antes de trabajar para actualizar ramas remotas.
-2. Mantener commits claros y atómicos.
-3. Hacer pull o merge frecuente para evitar conflictos grandes.
-4. Trabajar en ramas de funcionalidad, nunca directamente en `main`.
-5. Para cambios importantes, usar **Pull Request** en GitHub antes de mergear.
-6. Nombrar ramas según funcionalidad:
-
-   * `feature/login`
-   * `bugfix/errores-api`
-   * `hotfix/seguridad`
-
----
-
