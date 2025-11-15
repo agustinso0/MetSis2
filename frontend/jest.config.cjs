@@ -1,17 +1,17 @@
 module.exports = {
-  testEnvironment: 'jsdom',
-  roots: ['<rootDir>/src'],
+  testEnvironment: "jsdom",
+  roots: ["<rootDir>/src"],
   transform: {
-    '^.+\\.(ts|tsx)$': 'ts-jest',
+    "^.+\\.(ts|tsx)$": "ts-jest",
   },
-  moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
-  setupFilesAfterEnv: ['@testing-library/jest-dom'],
+  moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"],
+  setupFilesAfterEnv: ["@testing-library/jest-dom"],
   globals: {
-    'ts-jest': {
+    "ts-jest": {
       tsconfig: {
-        jsx: 'react-jsx',
-        allowJs: true
-      }
-    }
-  }
+        jsx: "react-jsx",
+        allowJs: true,
+      },
+    },
+  },
 };
