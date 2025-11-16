@@ -11,7 +11,6 @@ const ErrorState: React.FC<ErrorStateProps> = ({
 }) => {
   return (
     <div className="flex flex-col items-center justify-center py-12 text-center">
-      {/* Triangulo de advertencia */}
       <div className="w-16 h-16 bg-red-600/20 rounded-full mb-6 flex items-center justify-center">
         <svg
           className="w-8 h-8 text-red-400"
@@ -42,7 +41,6 @@ const ErrorState: React.FC<ErrorStateProps> = ({
         </div>
       )}
 
-      {/* Boton para volver a intentar si se proporciona la funcion */}
       {onRetry && (
         <Button variant="primary" onClick={onRetry}>
           {retryText}
