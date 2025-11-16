@@ -8,11 +8,12 @@ const Card: React.FC<CardProps> = ({
   padding = "md",
 }) => {
   // Estilos base
-  let classes = "bg-gray-800 border border-gray-700 rounded-lg";
+  let classes = "bg-gray-800 border border-gray-700 rounded-lg shadow-lg";
 
   // Agrega efecto hover si es necesario
   if (hover) {
-    classes += " hover:border-gray-600 transition-colors cursor-pointer";
+    classes +=
+      " hover:border-gray-600 hover:shadow-xl transition-all duration-200 cursor-pointer";
   }
 
   // Agregar padding
@@ -25,10 +26,7 @@ const Card: React.FC<CardProps> = ({
   }
   // Si padding es "none", no agregamos padding
 
-  // Agregar clases personalizadas
-  if (className) {
-    classes += " " + className;
-  }
+  if (className) classes += " " + className;
 
   return <div className={classes}>{children}</div>;
 };
