@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import type { ListaNoticiasProps } from "../types/components";
 import { LoadingState, ErrorState, Card, Badge, Button } from "./ui";
-import { Newspaper, CheckCircle, Clock } from "lucide-react";
+import { Newspaper, CheckCircle, Clock, User } from "lucide-react";
 import { useNoticias } from "../hooks";
 
 const ListaNoticias: React.FC<ListaNoticiasProps> = ({ limit }) => {
@@ -36,7 +36,7 @@ const ListaNoticias: React.FC<ListaNoticiasProps> = ({ limit }) => {
       <div className="text-center py-20">
         <div className="inline-flex items-center justify-center w-20 h-20 bg-gray-700/50 rounded-full mb-6">
           <svg
-            className="w-10 h-10 text-gray-500"
+            className="w-10 h-10 text-gray-400"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -49,7 +49,7 @@ const ListaNoticias: React.FC<ListaNoticiasProps> = ({ limit }) => {
             />
           </svg>
         </div>
-        <h3 className="text-xl font-semibold text-white mb-2">
+        <h3 className="text-xl font-semibold text-white mb-2 font-heading">
           No hay noticias disponibles
         </h3>
         <p className="text-gray-400 max-w-md mx-auto mb-6">
@@ -82,7 +82,7 @@ const ListaNoticias: React.FC<ListaNoticiasProps> = ({ limit }) => {
       <div className="mb-8">
         <div className="flex items-center justify-between mb-4">
           <div>
-            <h2 className="text-3xl font-bold text-white mb-2">
+            <h2 className="text-3xl font-bold text-white mb-2 font-heading">
               Últimas Noticias
             </h2>
             <p className="text-gray-400">
@@ -199,14 +199,14 @@ const ListaNoticias: React.FC<ListaNoticiasProps> = ({ limit }) => {
                     </div>
                   )}
 
-                  <h3 className="text-lg font-bold text-white mb-3 group-hover:text-blue-300 transition-colors leading-tight line-clamp-2">
+                  <h3 className="text-lg font-bold text-white mb-3 group-hover:text-blue-300 transition-colors leading-tight line-clamp-2 font-heading">
                     {noticia.titulo}
                   </h3>
 
                   <div className="flex items-center justify-between text-sm text-gray-400 mb-3">
                     <div className="flex items-center">
                       <div className="w-6 h-6 bg-blue-600/30 rounded-full flex items-center justify-center mr-2">
-                        <svg
+                        <User
                           className="w-3 h-3 text-blue-400"
                           fill="none"
                           stroke="currentColor"
@@ -218,7 +218,7 @@ const ListaNoticias: React.FC<ListaNoticiasProps> = ({ limit }) => {
                             strokeWidth={2}
                             d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
                           />
-                        </svg>
+                        </User>
                       </div>
                       <span className="text-gray-300 font-medium truncate">
                         {noticia.autor}
