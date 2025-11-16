@@ -8,11 +8,12 @@ const Textarea: React.FC<TextareaProps> = ({
   ...props
 }) => {
   let textareaClasses =
-    "w-full px-4 py-2 bg-gray-800 border rounded-lg text-white placeholder-gray-400 resize-vertical min-h-[100px] focus:outline-none focus:ring-2 focus:ring-blue-500";
+    "w-full px-4 py-2 bg-gray-900 border rounded-lg text-white placeholder-gray-500 resize-vertical min-h-[100px] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors";
 
   // Agregar estilos de error
   if (error) {
-    textareaClasses += " border-red-500";
+    textareaClasses +=
+      " border-red-500 focus:ring-red-500 focus:border-red-500";
   } else {
     textareaClasses += " border-gray-600";
   }
