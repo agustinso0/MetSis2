@@ -1,7 +1,7 @@
 import { render, screen, waitFor } from "@testing-library/react";
 import ListaNoticias from "../components/ListaNoticias";
 
-jest.mock('react-router-dom', () => ({
+jest.mock("react-router-dom", () => ({
   Link: ({ children, to }: { children: React.ReactNode; to: string }) => (
     <a href={to}>{children}</a>
   ),
