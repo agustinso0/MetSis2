@@ -11,7 +11,6 @@ export const formatDate = (dateString?: string): string => {
       day: "numeric",
     });
   } catch {
-    // manejo de errores de parsing - evita crashes por fechas malformadas
     return "Fecha no válida";
   }
 };
@@ -28,9 +27,8 @@ export const isValidEmail = (email: string): boolean => {
   return emailRegex.test(email); // retorna true si coincide con el patron
 };
 
-// Funcion para manejar errores de manera consistente - normaliza mensajes de error de diferentes fuentes
 export const getErrorMessage = (error: unknown): string => {
-  if (typeof error === "string") return error; // si ya es string, usarlo directamente
-  if (error instanceof Error) return error.message; // si es Error object, extraer el mensaje
-  return "Ha ocurrido un error inesperado"; // fallback para casos raros
+  if (typeof error === "string") return error;
+  if (error instanceof Error) return error.message;
+  return "Ha ocurrido un error inesperado";
 };
