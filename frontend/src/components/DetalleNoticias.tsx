@@ -1,59 +1,26 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import type { DetalleNoticiasProps } from "../types/components";
 import { CheckCircle, Clock } from "lucide-react";
 import { Button, Badge } from "./ui";
 import { formatDate } from "../utils";
 
-const DetalleNoticias: React.FC<DetalleNoticiasProps> = ({
-  noticia,
-  onClose,
-  onBack,
-}) => {
+const DetalleNoticias: React.FC<DetalleNoticiasProps> = ({ noticia }) => {
+  const navigate = useNavigate();
   return (
     <div className="min-h-screen bg-gray-900">
-      {/* Barra superior con botones de navegacion */}
+      {/* Barra superior con botón de navegación */}
       <div className="bg-gray-800/30 backdrop-blur-sm border-b border-gray-700/50 sticky top-0 z-10">
         <div className="max-w-6xl mx-auto px-6 py-3">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
-              {onBack && (
-                <Button
-                  variant="secondary"
-                  onClick={onBack}
-                  className="flex items-center"
-                  aria-label="Volver a la lista"
-                >
-                  <svg
-                    className="w-4 h-4 mr-2"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M15 19l-7-7 7-7"
-                    />
-                  </svg>
-                  <span className="text-sm font-medium">Volver</span>
-                </Button>
-              )}
-              <div className="text-sm text-gray-400">
-                <span>Portal de Noticias</span>
-              </div>
-            </div>
-
-            {/* Boton X para cerrar si se necesita */}
-            {onClose && (
               <Button
-                variant="outline"
-                onClick={onClose}
-                className="p-2"
-                aria-label="Cerrar detalle"
+                variant="secondary"
+                onClick={() => navigate(-1)}
+                className="flex items-center"
               >
                 <svg
-                  className="w-5 h-5"
+                  className="w-4 h-4 mr-2"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -62,11 +29,15 @@ const DetalleNoticias: React.FC<DetalleNoticiasProps> = ({
                     strokeLinecap="round"
                     strokeLinejoin="round"
                     strokeWidth={2}
-                    d="M6 18L18 6M6 6l12 12"
+                    d="M15 19l-7-7 7-7"
                   />
                 </svg>
+                <span className="text-sm font-medium">Volver</span>
               </Button>
-            )}
+              <div className="text-sm text-gray-400">
+                <span>Portal de Noticias</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
