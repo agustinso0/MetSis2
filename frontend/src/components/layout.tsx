@@ -3,6 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import SidebarDestacadas from "./SidebarDestacadas";
 import type { LayoutProps } from "../types/ui";
 import { Newspaper, Settings } from "lucide-react";
+import { APP_CONFIG } from "../constants";
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   const location = useLocation();
@@ -22,7 +23,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                 <Newspaper className="w-5 h-5 text-white" />
               </div>
               <span className="text-xl font-bold text-white tracking-tight whitespace-nowrap">
-                Portal de Noticias
+                {APP_CONFIG.NAME}
               </span>
             </Link>
 
@@ -85,7 +86,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                 <Newspaper className="w-3 h-3 text-white" />
               </div>
               <span className="text-gray-300 font-medium">
-                © 2025 Portal de Noticias 
+                © 2025 {APP_CONFIG.NAME}
               </span>
             </div>
           </div>
