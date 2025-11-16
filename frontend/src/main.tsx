@@ -4,17 +4,16 @@ import "./styles/index.css";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import NoticiasPage from "./pages/NoticiasPage";
 import DetallePage from "./pages/DetallePage";
-import Categorias from "./pages/Categorias";
+import { AdminPage } from "./pages/AdminPage";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <BrowserRouter>
       <Routes>
-        {/* Redirigir la ruta raiz a /noticias */}
         <Route path="/" element={<Navigate to="/noticias" replace />} />
         <Route path="/noticias" element={<NoticiasPage />} />
         <Route path="/detalle/:id" element={<DetallePage />} />
-        <Route path="/categorias" element={<Categorias />} />
+        <Route path="/admin" element={<AdminPage />} />
       </Routes>
     </BrowserRouter>
   </StrictMode>
