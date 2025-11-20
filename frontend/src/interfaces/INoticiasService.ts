@@ -15,7 +15,6 @@ export interface INoticiasService {
   ): Promise<{ message: string }>;
   eliminar(id: number): Promise<{ message: string }>;
 
-  // Metodos especializados para casos particulares
   buscar(termino: string): Promise<Noticia[]>;
   getPorAutor(autor: string): Promise<Noticia[]>;
   getRecientes(limit?: number): Promise<Noticia[]>;
