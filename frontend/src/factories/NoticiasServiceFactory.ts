@@ -10,7 +10,7 @@ export class NoticiasServiceFactory {
 
   static getInstance(): INoticiasService {
     if (!this.instance) {
-      const baseUrl = process.env.VITE_API_URL || "http://localhost:3000";
+      const baseUrl = import.meta.env.VITE_API_URL || "http://localhost:3000";
 
       const apiClient = new ApiClient(baseUrl);
       const repository = new NoticiasApiRepository(apiClient);
