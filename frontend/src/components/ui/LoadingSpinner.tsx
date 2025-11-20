@@ -1,6 +1,5 @@
 import React from "react";
 
-// Spinner basico que gira - se puede usar en cualquier lado
 const LoadingSpinner: React.FC<{ className?: string }> = ({
   className = "",
 }) => {
@@ -11,7 +10,6 @@ const LoadingSpinner: React.FC<{ className?: string }> = ({
   );
 };
 
-// Version mas completa con titulo y descripcion
 export const LoadingState: React.FC<{
   title?: string;
   description?: string;
