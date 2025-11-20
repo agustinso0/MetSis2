@@ -8,10 +8,14 @@ interface SidebarDestacadasProps {
   maxItems?: number;
 }
 
-const SidebarDestacadas: React.FC<SidebarDestacadasProps> = ({ 
-  maxItems = APP_CONFIG.SIDEBAR.MAX_ITEMS 
+const SidebarDestacadas: React.FC<SidebarDestacadasProps> = ({
+  maxItems = APP_CONFIG.SIDEBAR.MAX_ITEMS,
 }) => {
-  const { noticias: destacadas, loading, error } = useNoticiasRecientes(maxItems);
+  const {
+    noticias: destacadas,
+    loading,
+    error,
+  } = useNoticiasRecientes(maxItems);
 
   if (loading) {
     return (
