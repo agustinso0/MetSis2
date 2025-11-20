@@ -1,4 +1,5 @@
 import { render, screen, waitFor } from "@testing-library/react";
+import "@testing-library/jest-dom";
 import ListaNoticias from "../components/ListaNoticias";
 
 jest.mock("react-router-dom", () => ({
