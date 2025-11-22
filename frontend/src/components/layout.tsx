@@ -9,6 +9,18 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   const location = useLocation();
   const isAdminPage = location.pathname === "/admin";
 
+  const appName = APP_CONFIG.NAME;
+
+  const linkClass = (active: boolean) =>
+    `px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+      active ? "bg-blue-600 text-white" : "text-gray-300 hover:text-white hover:bg-gray-700"
+    }`;
+
+  const navItems = [
+    { to: "/noticias", label: "Noticias", icon: null, active: !isAdminPage },
+    { to: "/admin", label: "Admin", icon: Settings, active: isAdminPage },
+  ];
+
   return (
     <div className="flex flex-col min-h-screen bg-gray-900">
       {/* Navbar */}
@@ -23,35 +35,25 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                 <Newspaper className="w-5 h-5 text-white" />
               </div>
               <span className="text-xl font-bold text-white tracking-tight whitespace-nowrap">
-                {APP_CONFIG.NAME}
+                {appName}
               </span>
             </Link>
 
             {/* Navegación de administración */}
             <nav className="flex space-x-4">
-              <Link
-                to="/noticias"
-                className={
-                  "px-3 py-2 rounded-md text-sm font-medium transition-colors " +
-                  (!isAdminPage
-                    ? "bg-blue-600 text-white"
-                    : "text-gray-300 hover:text-white hover:bg-gray-700")
-                }
-              >
-                Noticias
-              </Link>
-              <Link
-                to="/admin"
-                className={
-                  "px-3 py-2 rounded-md text-sm font-medium transition-colors flex items-center space-x-2 " +
-                  (isAdminPage
-                    ? "bg-blue-600 text-white"
-                    : "text-gray-300 hover:text-white hover:bg-gray-700")
-                }
-              >
-                <Settings className="w-4 h-4" />
-                <span>Admin</span>
-              </Link>
+              {navItems.map((item) => {
+                const Icon = item.icon as any;
+                return (
+                  <Link
+                    key={item.to}
+                    to={item.to}
+                    className={linkClass(item.active) + (item.icon ? " flex items-center space-x-2" : "")}
+                  >
+                    {Icon ? <Icon className="w-4 h-4" /> : null}
+                    <span>{item.label}</span>
+                  </Link>
+                );
+              })}
             </nav>
           </div>
         </div>
