@@ -87,7 +87,7 @@ node init-db.js
 node server.js
 ```
 
-Backend: `http://localhost:3001`
+Backend: `http://localhost:3000`
 
 ### Frontend
 
@@ -188,3 +188,68 @@ interface Noticia {
 - Consistencia visual
 
 ---
+
+### Variables de entorno
+
+Este proyecto no usa un `.env` por defecto, pero puedes configurar las siguientes variables si quieres cambiar puertos u orígenes:
+
+- `PORT` — puerto del backend (por defecto 3000).
+- `DATABASE_PATH` — ruta al fichero SQLite (si decides parametrizar `db.js`).
+
+
+### API: ejemplos y payloads
+
+- Listar noticias:
+
+```powershell
+curl http://localhost:3000/noticias
+```
+
+- Obtener una noticia por id:
+
+```powershell
+curl http://localhost:3000/noticias/1
+```
+
+- Crear una noticia (ejemplo JSON):
+
+```powershell
+curl -X POST http://localhost:3000/noticias -H "Content-Type: application/json" -d '{"titulo":"Prueba","contenido":"Contenido","autor":"Admin","publicado":1}'
+```
+
+### Rutas en frontend
+
+- La app usa Vite + `react-router-dom`.
+- Página de noticias: `/noticias`.
+- Detalle: `/noticias/:id`.
+
+### Inicializar / Resetear base de datos
+
+- El script `backend/init-db.js` ejecuta `database/database.sql`. Ejecútalo desde la carpeta `backend`:
+
+```powershell
+cd backend
+node init-db.js
+```
+
+Si `database.db` ya existe y quieres resetearla, bórrala antes de ejecutar `init-db.js`.
+
+### Testing
+
+- Frontend (Jest + RTL):
+
+```powershell
+cd frontend
+npm test
+```
+
+- Backend: hay pruebas en `backend/tests`. Puedes instalar `jest` en la raíz o añadir `package.json` en `backend` con `jest` como dependencia para ejecutar los tests.
+
+
+### Troubleshooting (problemas comunes)
+
+- Error al abrir SQLite en OneDrive: mueve el proyecto fuera de OneDrive o cambia permisos.
+- CORS: el backend permite `http://localhost:5173` por defecto; si cambias puerto añade el origen.
+- Errores de puerto: verifica que la variable `PORT` no esté en uso.
+
+
