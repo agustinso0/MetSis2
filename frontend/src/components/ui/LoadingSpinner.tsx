@@ -1,19 +1,28 @@
 import React from "react";
 
-const LoadingSpinner: React.FC<{ className?: string }> = ({
-  className = "",
-}) => {
+// Definir interfaces hace el código más ordenado y fácil de mantener.
+interface LoadingSpinnerProps {
+  className?: string;
+}
+
+interface LoadingStateProps {
+  title?: string;
+  description?: string;
+}
+
+const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({ className = "" }) => {
   return (
     <div
-      className={`animate-spin rounded-full border-2 border-blue-500 border-t-transparent w-6 h-6 ${className}`}
+      role="status"
+      className={`animate-spin rounded-full border-2 border-current border-t-transparent w-6 h-6 text-blue-500 ${className}`}
     />
   );
 };
 
-export const LoadingState: React.FC<{
-  title?: string;
-  description?: string;
-}> = ({ title = "Cargando...", description }) => {
+export const LoadingState: React.FC<LoadingStateProps> = ({
+  title = "Cargando...",
+  description,
+}) => {
   return (
     <div className="flex flex-col items-center justify-center py-12">
       <LoadingSpinner className="mb-4" />
