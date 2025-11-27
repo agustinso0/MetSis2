@@ -1,255 +1,141 @@
-# Portal de Noticias
+# Portal de Noticias (MetSis2)
 
-Sistema web para gestión y visualización de noticias con arquitectura full-stack.
+Sistema web full‑stack para gestión y visualización de noticias. Provee un backend REST con SQLite y un frontend SPA con React + TypeScript.
 
 ## Descripción
 
-Aplicación web que permite visualizar, gestionar y consultar artículos de noticias. Implementa arquitectura con separación entre frontend y backend.
+El proyecto separa responsabilidades entre `backend` y `frontend`. El backend expone endpoints CRUD sobre el recurso `noticias` y un endpoint de autenticación simple; el frontend consume estos servicios y presenta vistas de listado y detalle.
 
-### Funcionalidades
+### Decisiones de arquitectura
 
-- Listado de noticias con filtros
-- Vista detallada individual
-- Categorías temáticas
-- Sidebar con noticias recientes
-- Componentes UI reutilizables
-- Factory pattern con Singleton
-- Custom hooks para estado
-- API RESTful
-- Testing con Jest
-- UI responsiva con Tailwind CSS
-- TypeScript
-
-## Arquitectura
-
-### Frontend (React + TypeScript)
-
-```text
-frontend/
-├── src/
-│   ├── components/         # Componentes reutilizables
-│   │   ├── ListaNoticias.tsx
-│   │   ├── DetalleNoticias.tsx
-│   │   ├── SidebarDestacadas.tsx
-│   │   ├── layout.tsx
-│   │   └── ui/            # Componentes UI
-│   ├── pages/             # Páginas
-│   ├── services/          # Lógica de negocio
-│   ├── repositories/      # Acceso a datos
-│   ├── factories/         # Factory patterns
-│   ├── hooks/            # Custom hooks
-│   ├── interfaces/       # Contratos TypeScript
-│   ├── types/           # Definiciones de tipos
-│   ├── utils/           # Utilidades
-│   ├── constants/       # Constantes
-│   └── __tests__/       # Tests
-```
-
-### Backend (Node.js + Express + SQLite)
-
-```text
-backend/
-├── controllers/          # Controladores MVC
-├── models/              # Modelos de datos
-├── repositorios/        # Patrón Repository
-├── middleware/          # Middlewares
-├── tests/              # Testing
-└── database.db         # SQLite
-```
-
-## Stack Tecnológico
-
-**Frontend:**
-
-- React 19.1.1
-- TypeScript 5.9.3
-- Vite 7.1.7
-- Tailwind CSS 4.1.14
-- React Router 7.9.3
-- Jest 30.2.0
-- React Testing Library 16.3.0
-
-**Backend:**
-
-- Node.js 18+
-- Express.js 4.x
-- SQLite3 5.x
-- Jest
+- SQLite para simplicidad local y fácil portabilidad.
+- Patrón Repository en backend para aislar acceso a datos y facilitar testing.
+- Exportación de `app` en `server.js` para pruebas con Supertest.
+- SPA con React y TypeScript por productividad, tipado y reutilización de componentes.
 
 ## Instalación
 
-### Backend
+Prerequisitos: `Node.js 18+` y `npm 9+`.
+
+1) Instalar dependencias de backend (raíz del repo):
+
+```bash
+npm install
+```
+
+2) Inicializar base de datos (desde `backend/`):
 
 ```bash
 cd backend
-npm install
 node init-db.js
+```
+
+3) Arrancar backend (puerto por defecto `3000`):
+
+```bash
 node server.js
 ```
 
-Backend: `http://localhost:3000`
-
-### Frontend
+4) Instalar y arrancar frontend (puerto `5173`):
 
 ```bash
-cd frontend
+cd ../frontend
 npm install
 npm run dev
-npm test
-npm run build
 ```
 
-Frontend: `http://localhost:5173`
-
-### Base de Datos
-
-```sql
-CREATE TABLE noticias (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    titulo TEXT NOT NULL,
-    contenido TEXT NOT NULL,
-    autor TEXT NOT NULL,
-    publicado BOOLEAN DEFAULT 0,
-    imagen TEXT,
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
-);
-```
-
-## Testing
-
-**Frontend:** 25+ tests para componentes, servicios, hooks e integración.
-
-```bash
-npm test
-npm run test:coverage
-```
-
-**Herramientas:**
-
-- ESLint
-- TypeScript
-- Jest + jsdom
-- React Testing Library
-
-## API Endpoints
-
-| Método | Endpoint | Descripción |
-|--------|----------|-------------|
-| GET | `/api/noticias` | Lista todas |
-| GET | `/api/noticias/:id` | Una específica |
-| POST | `/api/noticias` | Crear nueva |
-| PUT | `/api/noticias/:id` | Actualizar |
-| DELETE | `/api/noticias/:id` | Eliminar |
-
-```typescript
-interface Noticia {
-  id: number;
-  titulo: string;
-  contenido: string;
-  autor: string;
-  publicado?: boolean;
-  imagen?: string;
-  created_at?: string;
-  updated_at?: string;
-}
-```
-
-## Patrones Implementados
-
-**MVC (Backend):**
-
-- Separación modelos/vistas/controladores
-- Componentes desacoplados
-- Testing independiente
-
-**Repository:**
-
-- Abstracción de datos
-- Consultas centralizadas
-- Intercambiabilidad de fuentes
-
-**Singleton + Factory:**
-
-- Instancia única de servicios
-- Gestión de dependencias
-- Optimización recursos
-
-**Custom Hooks:**
-
-- Reutilización de estado
-- Lógica separada de UI
-- Manejo consistente de errores
-
-**Componentes UI:**
-
-- Sistema reutilizable
-- Props tipadas
-- Consistencia visual
-
----
-
-### Variables de entorno
-
-Este proyecto no usa un `.env` por defecto, pero puedes configurar las siguientes variables si quieres cambiar puertos u orígenes:
-
-- `PORT` — puerto del backend (por defecto 3000).
-- `DATABASE_PATH` — ruta al fichero SQLite (si decides parametrizar `db.js`).
-
-
-### API: ejemplos y payloads
+## Ejemplos de uso
 
 - Listar noticias:
 
-```powershell
+```bash
 curl http://localhost:3000/noticias
 ```
 
-- Obtener una noticia por id:
+- Obtener una noticia:
 
-```powershell
+```bash
 curl http://localhost:3000/noticias/1
 ```
 
-- Crear una noticia (ejemplo JSON):
+- Crear noticia:
 
-```powershell
-curl -X POST http://localhost:3000/noticias -H "Content-Type: application/json" -d '{"titulo":"Prueba","contenido":"Contenido","autor":"Admin","publicado":1}'
+```bash
+curl -X POST http://localhost:3000/noticias \
+  -H "Content-Type: application/json" \
+  -d '{"titulo":"Nueva","contenido":"Texto","autor":"admin1","imagen":"img1.jpg"}'
 ```
 
-### Rutas en frontend
+- Actualizar noticia:
 
-- La app usa Vite + `react-router-dom`.
-- Página de noticias: `/noticias`.
-- Detalle: `/noticias/:id`.
-
-### Inicializar / Resetear base de datos
-
-- El script `backend/init-db.js` ejecuta `database/database.sql`. Ejecútalo desde la carpeta `backend`:
-
-```powershell
-cd backend
-node init-db.js
+```bash
+curl -X PUT http://localhost:3000/noticias/1 \
+  -H "Content-Type: application/json" \
+  -d '{"titulo":"Edit","contenido":"Texto","autor":"admin1","imagen":"img1.jpg"}'
 ```
 
-Si `database.db` ya existe y quieres resetearla, bórrala antes de ejecutar `init-db.js`.
+- Eliminar noticia:
 
-### Testing
-
-- Frontend (Jest + RTL):
-
-```powershell
-cd frontend
-npm test
+```bash
+curl -X DELETE http://localhost:3000/noticias/1
 ```
 
-- Backend: hay pruebas en `backend/tests`. Puedes instalar `jest` en la raíz o añadir `package.json` en `backend` con `jest` como dependencia para ejecutar los tests.
+- Login (autenticación simple):
 
+```bash
+curl -X POST http://localhost:3000/login \
+  -H "Content-Type: application/json" \
+  -d '{"username":"admin1","password":"1234"}'
+```
 
-### Troubleshooting (problemas comunes)
+## Dependencias y herramientas
 
-- Error al abrir SQLite en OneDrive: mueve el proyecto fuera de OneDrive o cambia permisos.
-- CORS: el backend permite `http://localhost:5173` por defecto; si cambias puerto añade el origen.
-- Errores de puerto: verifica que la variable `PORT` no esté en uso.
+- Backend: `express`, `cors`, `body-parser`, `sqlite3`, `jest`, `supertest`.
+- Frontend: `react`, `react-router-dom`, `typescript`, `vite`, `tailwindcss`, `jest`, `@testing-library/react`.
+
+## Estructura del repositorio
+
+```text
+MetSis2/
+├── backend/
+│   ├── controllers/          # Controladores
+│   ├── models/               # Modelos
+│   ├── repositorios/         # Patrón Repository
+│   ├── middleware/           # Auth simple
+│   ├── tests/                # Pruebas con Supertest
+│   ├── server.js             # App Express
+│   ├── db.js                 # Singleton SQLite
+│   └── init-db.js            # Inicialización DB
+├── database/
+│   └── database.sql          # Esquema y datos semilla
+├── frontend/
+│   ├── src/                  # Código SPA
+│   └── package.json          # Configuración frontend
+└── README.md
+```
+
+## API de referencia
+
+La especificación OpenAPI se incluye en `backend/openapi.yaml`. Puede visualizarse con Swagger UI.
+
+Resumen de endpoints (backend real):
+
+- `GET /noticias` — lista todas las noticias.
+- `GET /noticias/{id}` — obtiene una noticia por id.
+- `POST /noticias` — crea una noticia.
+- `PUT /noticias/{id}` — actualiza una noticia.
+- `DELETE /noticias/{id}` — elimina una noticia.
+- `POST /login` — autenticación simple (usuario/contraseña).
+
+## Créditos y licencia
+
+- Autor: Agustin Loos.
+- Licencia: MIT (ver `LICENSE`).
+
+## Notas de mantenibilidad
+
+- El campo `imagen` es obligatorio en DB; considerar validación en el controlador.
+- La autenticación actual usa credenciales en texto plano; para producción usar hashing y tokens.
+- El frontend construye filtros en `/noticias`, pero el backend aún no los implementa; planificar extensión.
 
 

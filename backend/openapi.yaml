@@ -1,0 +1,305 @@
+openapi: 3.0.3
+info:
+  title: Portal de Noticias API
+  version: 1.0.0
+  description: |
+    API REST para gestionar noticias. Implementación Node.js + Express + SQLite.
+    Endpoints implementados según `backend/server.js`.
+servers:
+  - url: http://localhost:3000
+    description: Servidor local de desarrollo
+paths:
+  /noticias:
+    get:
+      summary: Listar todas las noticias
+      responses:
+        '200':
+          description: Lista de noticias
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Noticia'
+              examples:
+                ejemplo:
+                  value:
+                    - id: 1
+                      titulo: "Nuevo sistema de gestión"
+                      contenido: "Se ha implementado un nuevo sistema de gestión..."
+                      autor: "admin1"
+                      imagen: "img1.jpg"
+                      updated_at: "2025-01-01T12:00:00Z"
+                      publicado: true
+        '500':
+          description: Error interno
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    post:
+      summary: Crear una noticia
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateNoticia'
+            examples:
+              ejemplo:
+                value:
+                  titulo: "Nueva"
+                  contenido: "Texto"
+                  autor: "admin1"
+                  imagen: "img1.jpg"
+      responses:
+        '201':
+          description: Creada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateNoticiaResponse'
+              examples:
+                ejemplo:
+                  value:
+                    id: 1
+        '400':
+          description: Datos inválidos
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Error interno
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /noticias/{id}:
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: integer
+        description: ID de la noticia
+    get:
+      summary: Obtener una noticia por ID
+      responses:
+        '200':
+          description: Noticia encontrada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Noticia'
+              examples:
+                ejemplo:
+                  value:
+                    id: 1
+                    titulo: "Nuevo sistema de gestión"
+                    contenido: "Se ha implementado un nuevo sistema..."
+                    autor: "admin1"
+                    imagen: "img1.jpg"
+        '404':
+          description: No encontrada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Error interno
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    put:
+      summary: Actualizar una noticia
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateNoticia'
+            examples:
+              ejemplo:
+                value:
+                  titulo: "Edit"
+                  contenido: "Texto"
+                  autor: "admin1"
+                  imagen: "img1.jpg"
+      responses:
+        '200':
+          description: Actualizada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageResponse'
+              examples:
+                ejemplo:
+                  value:
+                    message: "Noticia actualizada"
+        '400':
+          description: Datos inválidos
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Error interno
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    delete:
+      summary: Eliminar una noticia
+      responses:
+        '200':
+          description: Eliminada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageResponse'
+              examples:
+                ejemplo:
+                  value:
+                    message: "Noticia eliminada"
+        '500':
+          description: Error interno
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /login:
+    post:
+      summary: Autenticación simple
+      description: Verifica credenciales contra la tabla `users` (texto plano).
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthRequest'
+            examples:
+              ejemplo:
+                value:
+                  username: "admin1"
+                  password: "1234"
+      responses:
+        '200':
+          description: Login exitoso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+        '401':
+          description: Credenciales inválidas
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Error interno
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /test:
+    get:
+      summary: Probar conexión a base de datos
+      responses:
+        '200':
+          description: Conexión exitosa
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  row:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Noticia'
+        '500':
+          description: Error de conexión
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+components:
+  schemas:
+    Noticia:
+      type: object
+      properties:
+        id:
+          type: integer
+        titulo:
+          type: string
+        contenido:
+          type: string
+        autor:
+          type: string
+        imagen:
+          type: string
+        updated_at:
+          type: string
+          format: date-time
+        publicado:
+          type: boolean
+      required: [id, titulo, contenido, autor, imagen]
+    CreateNoticia:
+      type: object
+      properties:
+        titulo:
+          type: string
+        contenido:
+          type: string
+        autor:
+          type: string
+        imagen:
+          type: string
+      required: [titulo, contenido, autor, imagen]
+    UpdateNoticia:
+      type: object
+      properties:
+        titulo:
+          type: string
+        contenido:
+          type: string
+        autor:
+          type: string
+        imagen:
+          type: string
+    CreateNoticiaResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+      required: [id]
+    MessageResponse:
+      type: object
+      properties:
+        message:
+          type: string
+      required: [message]
+    AuthRequest:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+      required: [username, password]
+    AuthResponse:
+      type: object
+      properties:
+        message:
+          type: string
+      example:
+        message: Login exitoso
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
