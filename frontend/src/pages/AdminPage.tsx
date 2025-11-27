@@ -6,74 +6,71 @@ import { useNoticiasActions } from "../hooks";
 import type { Noticia } from "../types/noticia";
 import type { CreateNoticiaDto, UpdateNoticiaDto } from "../types/dtos";
 
-type ViewMode = "list" | "create" | "edit";
+const ErrorMessage = ({ message }: { message: string }) => (
+  <div className="mt-4 p-4 bg-red-900/30 border border-red-700/50 rounded-lg">
+    <p className="text-red-300 font-medium">Error:</p>
+    <p className="text-red-400">{message}</p>
+  </div>
+);
+
+type ViewMode = "list" | "form";
 
 export const AdminPage = () => {
-  const [currentView, setCurrentView] = useState<ViewMode>("list");
-  const [selectedNoticia, setSelectedNoticia] = useState<Noticia | null>(null);
-  const [refreshTrigger, setRefreshTrigger] = useState(0);
-
+ const [view, setView] = useState<ViewMode>("list");
+  const [editingNoticia, setEditingNoticia] = useState<Noticia | null>(null);
+  
   const { crear, actualizar, loading, error } = useNoticiasActions();
 
-  const handleCreateClick = () => {
-    setSelectedNoticia(null);
-    setCurrentView("create");
+  // Handlers unificados
+  const goToList = () => {
+    setView("list");
+    setEditingNoticia(null);
   };
 
-  const handleEditClick = (noticia: Noticia) => {
-    setSelectedNoticia(noticia);
-    setCurrentView("edit");
+  const handleCreate = () => {
+    setEditingNoticia(null);
+    setView("form");
   };
 
-  const handleBackToList = () => {
-    setCurrentView("list");
-    setSelectedNoticia(null);
-    setRefreshTrigger((prev) => prev + 1); // Trigger refresh de la lista
+  const handleEdit = (noticia: Noticia) => {
+    setEditingNoticia(noticia);
+    setView("form");
   };
 
   const handleSubmit = async (data: CreateNoticiaDto | UpdateNoticiaDto) => {
     try {
-      if (currentView === "create") {
+      if (editingNoticia) {
+        await actualizar(editingNoticia.id, data as UpdateNoticiaDto);
+      } else {
         await crear(data as CreateNoticiaDto);
-      } else if (currentView === "edit" && selectedNoticia) {
-        await actualizar(selectedNoticia.id, data as UpdateNoticiaDto);
       }
-
-      handleBackToList();
+      goToList();
     } catch {
-      // El error se maneja en el hook useNoticiasActions
     }
   };
 
   return (
     <Layout>
-      <div className="min-h-screen bg-gray-900">
+    <div className="min-h-screen bg-gray-900">
         <div className="container mx-auto px-4 py-8">
-          {currentView === "list" && (
+          
+          {view === "list" ? (
             <AdminNoticiasList
-              key={refreshTrigger}
-              onCreateClick={handleCreateClick}
-              onEditClick={handleEditClick}
+              onCreateClick={handleCreate}
+              onEditClick={handleEdit}
             />
-          )}
-
-          {(currentView === "create" || currentView === "edit") && (
+          ) : (
             <div className="max-w-4xl mx-auto">
               <FormularioNoticia
-                noticia={selectedNoticia || undefined}
+                noticia={editingNoticia || undefined}
                 onSubmit={handleSubmit}
-                onCancel={handleBackToList}
+                onCancel={goToList}
                 loading={loading}
               />
-
-              {error && (
-                <div className="mt-4 p-4 bg-red-900/30 border border-red-700/50 rounded-lg">
-                  <p className="text-red-300 font-medium">Error:</p>
-                  <p className="text-red-400">{error}</p>
-                </div>
-              )}
+              {error && <ErrorMessage message={error} />}
             </div>
           )}
+
         </div>
       </div>
     </Layout>
