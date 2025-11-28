@@ -127,10 +127,9 @@ Resumen de endpoints (backend real):
 - `DELETE /noticias/{id}` — elimina una noticia.
 - `POST /login` — autenticación simple (usuario/contraseña).
 
-## Créditos y licencia
+## Gestión del proyecto (Jira)
 
-- Autor: Agustin Loos.
-- Licencia: MIT (ver `LICENSE`).
+- Tablero: https://loosagustin.atlassian.net/jira/software/projects/MET/boards/34?atlOrigin=eyJpIjoiOTQ4NDc3OTg4NDRkNDhmNDkyYjY1ZTAxMjBhM2UxYWUiLCJwIjoiaiJ9
 
 ## Notas de mantenibilidad
 
