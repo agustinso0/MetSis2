@@ -1,6 +1,9 @@
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
+const path = require('path');
+const swaggerUi = require('swagger-ui-express');
+const yaml = require('yamljs');
 const authMiddleware = require('./middleware/auth');
 const getDatabase = require('./db');
 
@@ -11,6 +14,9 @@ const app = express();
 app.use(cors({ origin: 'http://localhost:5173' }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+const openapiDocument = yaml.load(path.join(__dirname, 'openapi.yaml'));
+app.use('/docs', swaggerUi.serve, swaggerUi.setup(openapiDocument));
 
 const db = getDatabase();
 
